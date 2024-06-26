@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Payment App</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin-top: 50px;
+    }
+
+    input {
+      padding: 10px;
+      margin-right: 10px;
+      width: 200px;
+    }
+
+    button {
+      padding: 10px 20px;
+    }
+
+    img {
+      margin-top: 20px;
+      max-width: 300px;
+    }
+  </style>
+</head>
+<body>
+<h1>Payment App</h1>
+<input type="number" id="amount" placeholder="Enter amount in JPY" />
+<button onclick="getQRCode()">Generate QR Code</button>
+
+<div id="qrCodeContainer" style="display: none;">
+  <h3>Scan this QR Code to pay:</h3>
+  <img id="qrCodeImage" src="" alt="QR Code" />
+</div>
+
+<div id="paymentStatusContainer" style="display: none;">
+  <h3 id="paymentStatus"></h3>
+</div>
+
+<script src="./script.js"></script>
+</body>
+</html>
