@@ -2,8 +2,15 @@ const express = require('express');
 const axios = require('axios');
 const cors = require('cors');
 const crypto = require('node:crypto');
+const dotenv = require('dotenv');
 const app = express();
-const port = 3000;
+
+// Load environment variables from .env file
+dotenv.config();
+
+const port = process.env.PORT || 3000;
+
+const API_KEY = process.env.API_KEY;
 
 app.use(cors());
 
@@ -13,10 +20,10 @@ app.get(`/api/payments/:paymentId`, async (req, res) => {
     try {
         const { paymentId } = req.params;
         const response = await axios.get(
-            `https://connect.squareupstaging.com/v2/payments/${paymentId}`,
+            `${process.env.API_URL}/v2/payments/${paymentId}`,
             {
                 headers: {
-                    'Authorization': 'Bearer EAAAFsTQCWbO70LkJkftnyecajfdN7l_U4R4Ag1O5XUCNrLkUKjJ7YPNpg7A_E5G',
+                    'Authorization': `Bearer ${process.env.API_KEY}`,
                 },    
             }
             );
@@ -30,7 +37,7 @@ app.get(`/api/payments/:paymentId`, async (req, res) => {
 app.post('/api/payments', async (req, res) => {
   try {
     const response = await axios.post(
-        'https://connect.squareupstaging.com/v2/payments',
+        `${process.env.API_URL}/v2/payments`,
         JSON.stringify({
             amount_money: {
                 amount: parseInt(req.body.amount),
@@ -45,7 +52,7 @@ app.post('/api/payments', async (req, res) => {
         }),
         {
             headers: {
-                'Authorization': 'Bearer EAAAFsTQCWbO70LkJkftnyecajfdN7l_U4R4Ag1O5XUCNrLkUKjJ7YPNpg7A_E5G',
+                'Authorization': `Bearer ${process.env.API_KEY}`,
                 'Content-Type': 'application/json',
                 'Access-Control-Allow-Origin': '*'
             },    
