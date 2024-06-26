@@ -21,8 +21,9 @@ async function getQRCode() {
         }
 
         const data = await response.json();
-        document.getElementById('qrCodeImage').src = data.payment.japan_qr_code_details.qr_code_url;
-        document.getElementById('qrCodeContainer').style.display = 'block';
+        window.open(data.payment.japan_qr_code_details.qr_code_url, '_blank');
+        // document.getElementById('qrCodeImage').src = data.payment.japan_qr_code_details.qr_code_url;
+        // document.getElementById('qrCodeContainer').style.display = 'block';
 
         pollPaymentStatus(data.payment.id);
     } catch (error) {
@@ -31,6 +32,8 @@ async function getQRCode() {
 }
 
 function pollPaymentStatus(paymentId) {
+    document.getElementById('paymentStatus').textContent = 'Waiting for buyer';
+    document.getElementById('paymentStatusContainer').style.display = 'block';
     const url = `http://localhost:3000/api/payments/${paymentId}`;
     const interval = setInterval(async () => {
         const response = await fetch(
@@ -47,7 +50,6 @@ function pollPaymentStatus(paymentId) {
         if (data.payment.status === 'COMPLETED') {
             clearInterval(interval);
             document.getElementById('paymentStatus').textContent = 'Payment Completed';
-            document.getElementById('paymentStatusContainer').style.display = 'block';
         }
     }, 5000); // Poll every 5 seconds
 }
